@@ -1,8 +1,12 @@
 from appium import webdriver
+from appium.webdriver.webdriver import WebDriver
 
 
 class Appium(object):
+
+
     driver=None
+    "@type driver: WebDriver"
 
     @classmethod
     def getDriver(cls):
