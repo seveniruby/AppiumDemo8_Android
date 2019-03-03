@@ -1,36 +1,23 @@
-import pytest
 import unittest
-from appium import webdriver
 from time import sleep
 
 from appium.webdriver.common.mobileby import MobileBy
 from appium.webdriver.common.touch_action import TouchAction
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.common.by import By
 
-from Search import Search
+from page.Search import Search
+from driver.Appium import Appium
+from page.Xueqiu import Xueqiu
 
 
 class TestXueqiu(unittest.TestCase):
     loaded = False
 
     def setUp(self):
-        print("setup")
-        caps = {}
-        caps["platformName"] = "android"
-        caps["deviceName"] = "demo"
-        caps["appPackage"] = "com.xueqiu.android"
-        caps["appActivity"] = ".view.WelcomeActivityAlias"
-        caps["autoGrantPermissions"] = "true"
-        caps["automationName"] = "UiAutomator2"
+        Appium.initDriver()
+        print(Appium.driver)
 
-        if TestXueqiu.loaded == True:
-            caps["noReset"] = "true"
-
-        self.driver = webdriver.Remote("http://localhost:4723/wd/hub", caps)
-        self.driver.implicitly_wait(20)
-        loaded = True
 
     def test_add_stock(self):
         self.driver.find_element_by_id("tv_search").click()
@@ -126,9 +113,16 @@ class TestXueqiu(unittest.TestCase):
         self.driver.find_element_by_css_selector(".trade_home_agu_3ki").click()
 
     def test_search(self):
-        search_page=Search()
-        search_page.search("pdd")
-        assert search_page.getStocks() == "拼多多"
+        xueqiu=Xueqiu()
+        search=xueqiu.toSearch()
+        search.search("pdd")
+        assert search.getStocks() == "拼多多"
+
+    def test_search_username(self):
+        xueqiu=Xueqiu()
+        search=xueqiu.toSearch()
+        search.search("seveniruby")
+        assert search.getUserName() == "seveniruby"
 
 
 
