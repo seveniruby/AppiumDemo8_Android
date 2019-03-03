@@ -3,8 +3,13 @@ import unittest
 from appium import webdriver
 from time import sleep
 
+from appium.webdriver.common.mobileby import MobileBy
 from appium.webdriver.common.touch_action import TouchAction
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.common.by import By
+
+from Search import Search
 
 
 class TestXueqiu(unittest.TestCase):
@@ -24,7 +29,7 @@ class TestXueqiu(unittest.TestCase):
             caps["noReset"] = "true"
 
         self.driver = webdriver.Remote("http://localhost:4723/wd/hub", caps)
-        self.driver.implicitly_wait(10)
+        self.driver.implicitly_wait(20)
         loaded = True
 
     def test_add_stock(self):
@@ -102,3 +107,31 @@ class TestXueqiu(unittest.TestCase):
         print(self.driver.execute_script("mobile:shell",
                                          {"command": "am",
                                           "args": ["start", "-n", "com.android.calculator2/.Calculator"]}))
+
+    def test_webview_sim_image(self):
+        self.loaded()
+        self.driver.find_element_by_xpath("//*[@text='交易']").click()
+        self.driver.find_element_by_accessibility_id("15da75b0b28c2b23feda8fe7").click()
+
+
+    def test_webview_sim_h5(self):
+        self.loaded()
+        self.driver.find_element_by_xpath("//*[@text='交易']").click()
+        WebDriverWait(self.driver, 10).until(
+            expected_conditions.visibility_of_element_located(
+                (MobileBy.ACCESSIBILITY_ID, "基金开户")))
+        self.driver.switch_to.context("WEBVIEW_com.xueqiu.android")
+        print(self.driver.current_context)
+        print(self.driver.page_source)
+        self.driver.find_element_by_css_selector(".trade_home_agu_3ki").click()
+
+    def test_search(self):
+        search_page=Search()
+        search_page.search("pdd")
+        assert search_page.getStocks() == "拼多多"
+
+
+
+
+
+
