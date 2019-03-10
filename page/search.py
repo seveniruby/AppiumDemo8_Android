@@ -9,6 +9,10 @@ class Search(BasePage):
     _username=(MobileBy.ID, "user_name")
     _stockName = (MobileBy.ID, "stockName")
     _search = (MobileBy.ID, "search_input_text")
+    _cancel=(MobileBy.XPATH, "//*[@text='取消']")
+
+    _follow=(MobileBy.ID, "com.xueqiu.android:id/follow_btn")
+    _followed = (MobileBy.ID, "com.xueqiu.android:id/followed_btn")
 
     def search(self, keyword):
         self.find(self._search).send_keys(keyword)
@@ -22,3 +26,13 @@ class Search(BasePage):
 
     def getStocks(self):
         return self.find(self._stockName).text
+
+    def cancel(self):
+        self.find(self._cancel).click()
+
+    def followFirst(self):
+        elements=self.findAll(self._follow)
+        if len(elements)==2:
+            elements[0].click()
+
+        return self

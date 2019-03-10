@@ -6,9 +6,9 @@ from appium.webdriver.common.touch_action import TouchAction
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 
-from page.Search import Search
+from page.search import Search
 from driver.Appium import Appium
-from page.Xueqiu import Xueqiu
+from page.xueqiu import Xueqiu
 
 
 class TestXueqiu(unittest.TestCase):
