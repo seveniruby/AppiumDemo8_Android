@@ -25,7 +25,7 @@ class TestPortfolio(unittest.TestCase):
         self.stock.delete("拼多多", "美股")
         assert "拼多多" not in self.stock.getNameByUS()
 
-    def delete_all(self):
+    def test_delete_all(self):
 
         #todo: xpath定位bug 确认是8.0系统上的android Uiautomator2 server的bug
         #todo: 使用接口清理数据是更高效的办法
