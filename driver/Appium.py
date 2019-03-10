@@ -27,4 +27,4 @@ class Appium(object):
         #caps["automationName"] = "UiAutomator2"
 
         cls.driver = webdriver.Remote("http://localhost:4723/wd/hub", caps)
-        cls.driver.implicitly_wait(20)
+        cls.driver.implicitly_wait(6)

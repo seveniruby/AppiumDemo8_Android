@@ -10,20 +10,25 @@ class BasePage(object):
         try:
             return Appium.getDriver().find_element(by, value)
         except:
-            for w in self.black_words:
-                elements=Appium.getDriver().find_elements(By.XPATH, w)
-                if len(elements)>0:
-                    elements[0].click()
-                    return Appium.getDriver().find_element(by, value)
-            # page_source=Appium.getDriver().page_source
-            # print(page_source)
-            # xml=etree.HTML(page_source)
-            # for w in self.black_words:
-            #     print(w)
-            #     if(len(xml.xpath(w))>0):
-            #         Appium.getDriver().find_element(By.XPATH, w).click()
-
-
+            self.exception_handle2()
+            return Appium.getDriver().find_element(by, value)
 
     def find(self, locate):
         return self.findBy(*locate)
+
+    def exception_handle(self):
+        for w in self.black_words:
+            elements = Appium.getDriver().find_elements(By.XPATH, w)
+            if len(elements) > 0:
+                elements[0].click()
+                return Appium.getDriver().find_element(by, value)
+
+    def exception_handle2(self):
+        page_source=Appium.getDriver().page_source
+        print(page_source)
+        #parser = etree.XMLParser(encoding='utf-8')
+        xml=etree.XML(str(page_source).encode("utf-8"))
+        for w in self.black_words:
+            print(w)
+            if(len(xml.xpath(w))>0):
+                Appium.getDriver().find_element(By.XPATH, w).click()

@@ -7,6 +7,17 @@ from page.Search import Search
 
 class Xueqiu(BasePage):
     _search=(By.ID, "home_search")
+    def __init__(self):
+        self.loaded()
+
     def toSearch(self):
         self.find(self._search).click()
         return Search()
+
+    def loaded(self):
+        locations = ["x", "y"]
+        while locations[-1] != locations[-2]:
+            element = self.find((By.XPATH,"//*[@text='自选' and contains(@resource-id, 'tab_name')]"))
+            print(element)
+            locations.append(element.location)
+            print(locations)
